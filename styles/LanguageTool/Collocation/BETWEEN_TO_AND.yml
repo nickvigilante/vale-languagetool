@@ -1,0 +1,5 @@
+extends: sequence
+ignorecase: true
+message: "test"
+tokens:
+  - tag: CN
