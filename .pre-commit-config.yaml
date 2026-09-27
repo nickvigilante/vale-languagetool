@@ -1,0 +1,49 @@
+# Pre-commit hooks for this repo. Formats files and scans for secrets before
+# each commit; the same hooks run in CI (.github/workflows/lint.yml) via
+# `pre-commit run --all-files`, so local and CI can't drift.
+#
+# One-time local setup:
+#   brew install pre-commit yamllint betterleaks
+#   pre-commit install
+#
+# Formatter/linter per file type:
+#   Markdown  -> mdformat (+ mdformat-tables; CommonMark-strict, won't mangle
+#                snake_case prose or rewrite embedded code blocks). Verified
+#                against README.md first — only trivial whitespace changes.
+#   YAML      -> yamllint (lint only, no formatter — see .yamllint.yml for the
+#                relaxed rules: Vale rule files have long `message` strings
+#                and no document-start convention, neither a real problem)
+#   Secrets   -> betterleaks
+#   All files -> whitespace / EOF / merge-conflict hygiene
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: mixed-line-ending
+        args: [--fix=lf]
+      - id: check-merge-conflict
+      - id: check-added-large-files
+
+  - repo: https://github.com/hukkin/mdformat
+    rev: 0.7.22
+    hooks:
+      - id: mdformat
+        args: [--wrap, keep, --number]
+        additional_dependencies:
+          - mdformat-tables
+
+  - repo: local
+    hooks:
+      - id: yamllint
+        name: yamllint
+        entry: yamllint -c .yamllint.yml
+        language: system
+        files: \.ya?ml$
+
+  - repo: https://github.com/betterleaks/betterleaks
+    rev: v1.3.1
+    hooks:
+      - id: betterleaks
