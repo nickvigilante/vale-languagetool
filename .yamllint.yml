@@ -1,9 +1,13 @@
 # Relaxed from yamllint's default: Vale rule files (styles/**/*.yml) have
 # long `message` strings and no document-start marker convention, neither of
-# which indicates a real problem in this format.
+# which indicates a real problem in this format. `truthy` is disabled because
+# this repo's own .github/workflows/lint.yml uses a bare `on:` key, which
+# YAML 1.1 (and yamllint) reads as a boolean — the idiomatic GitHub Actions
+# spelling, not a real truthy/boolean-value mistake.
 extends: default
 
 rules:
   document-start: disable
   line-length:
     max: 120
+  truthy: disable

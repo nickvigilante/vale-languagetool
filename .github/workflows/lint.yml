@@ -43,7 +43,8 @@ jobs:
           downloads="$HOME/.ci-tools/downloads"
           bin="$HOME/.ci-tools/betterleaks"
           mkdir -p "$downloads" "$bin"
-          if [ -f "$downloads/$asset" ] && ! echo "${BETTERLEAKS_SHA256}  ${downloads}/${asset}" | sha256sum -c --quiet -; then
+          if [ -f "$downloads/$asset" ] \
+            && ! echo "${BETTERLEAKS_SHA256}  ${downloads}/${asset}" | sha256sum -c --quiet -; then
             echo "cached ${asset} failed its checksum; downloading again"
             rm -f -- "${downloads:?}/${asset}"
           fi
