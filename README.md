@@ -1,6 +1,5 @@
 # vale-languagetool
 
-
 this is stinky.
 
 this is arguably one of the worst sentences ever. Here is 3 and 5 and three and five.
